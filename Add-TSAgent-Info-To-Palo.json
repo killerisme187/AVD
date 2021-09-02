@@ -1,0 +1,31 @@
+{
+    "apiVersion": "2018-06-01",
+    "type": "Microsoft.Compute/virtualMachines/extensions",
+    "name": "virtualMachineName/config-app",
+    "location": "[resourceGroup().location]",
+    "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),copyindex())]",
+        "[variables('musicstoresqlName')]"
+    ],
+    "tags": {
+        "displayName": "config-app"
+    },
+    "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.10",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+            "timestamp":123456789
+        },
+        "protectedSettings": {
+            "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File Add-TSAgent-To-Palo-List-Script.ps1",
+            "storageAccountName": "wvdsourcefilerepo",
+            "storageAccountKey": "JbapdnaD/jUMiIopXsQaT2W4n8qQYiZKBQoQXyfMEj+tpfiyIHFtXVrlSdLfVusl6LrmFH9gWSWS11Devsi0Kw==",
+            "managedIdentity" : {},
+            "fileUris": [
+                "https://wvdsourcefilerepo.blob.core.windows.net/avd/Add-TSAgent-To-Palo-List-Script.ps1"
+            ]
+        }
+    }
+}
